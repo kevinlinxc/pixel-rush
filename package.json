@@ -1,0 +1,24 @@
+{
+  "name": "lol-brainrot-test",
+  "version": "1.0.0",
+  "description": "Test how brainrotted you because of League of Legends",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kevinlinxc/lol-brainrot-test.git"
+  },
+  "author": "kevinlinxc",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kevinlinxc/lol-brainrot-test/issues"
+  },
+  "homepage": "https://github.com/kevinlinxc/lol-brainrot-test#readme",
+  "dependencies": {
+    "next": "^14.2.15",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  }
+}
