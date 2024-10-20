@@ -9,9 +9,6 @@ function normalizeString(str) {
     return str
         .toLowerCase()
         .replace(/[^a-z]/g, '')
-        .split('')
-        .sort()
-        .join('');
 }
 
 const WrongAlert = ({ message }) => (
