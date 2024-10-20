@@ -41,6 +41,8 @@ export default function CharacterGuessingGame({ characters, totalCharacters, pro
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(false);
   const [message, setMessage] = useState('');
+  const [timeLeft, setTimeLeft] = useState(10 * 60); // 10 minutes
+  const [timerRunning, setTimerRunning] = useState(true); // try to pause during set timeouts but not working
 
   // define some character name mappings for colloquial to actual names
   // don't need to do this for characters with spsaces or symbols, those are handled by normalizeString
@@ -67,6 +69,32 @@ export default function CharacterGuessingGame({ characters, totalCharacters, pro
     }
   }, [characters, remainingCharacters]);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimeLeft((prevTimeLeft) => {
+        if (prevTimeLeft > 0) {
+            if (timerRunning) {
+                return prevTimeLeft - 1;
+            } else {
+                return prevTimeLeft;
+            }
+        } else {
+          setGameOver(true);
+          clearInterval(interval);
+          return 0;
+        }
+      });
+    }, 1000);
+
+    return () => clearInterval(interval); // Clean up interval on component unmount
+  }, []);
+
+  const formatTime = (time) => {
+    const minutes = Math.floor(time / 60);
+    const seconds = time % 60;
+    return `${minutes}:${seconds < 10 ? "0" + seconds : seconds}`; // Add leading zero to seconds if less than 10
+  };
+
   const startNewRound = (chars) => {
     const randomIndex = Math.floor(Math.random() * chars.length);
     setCurrentCharacter(chars[randomIndex]);
@@ -80,6 +108,7 @@ export default function CharacterGuessingGame({ characters, totalCharacters, pro
     if (normalizeString(guess) === normalizeString(currentCharacter.name) || nameMappings[normalizeString(guess)] === normalizeString(currentCharacter.name)) {
       const roundScore = calculateScore();
       setScore(prevScore => prevScore + roundScore);
+      setTimerRunning(false);
       setMessage(`Correct! You scored ${roundScore} points.`);
       const updatedCharacters = remainingCharacters.filter(char => char.name !== currentCharacter.name);
       setRemainingCharacters(updatedCharacters);
@@ -89,6 +118,7 @@ export default function CharacterGuessingGame({ characters, totalCharacters, pro
           setGuess('');
           setCurrentCharacter(null);
           startNewRound(updatedCharacters);
+          setTimerRunning(true);
         }, 1500);
     }else {
             setGameOver(true);
@@ -101,10 +131,12 @@ export default function CharacterGuessingGame({ characters, totalCharacters, pro
 
       } else {
         setMessage(`Incorrect. The correct answer was ${currentCharacter.name}.`);
+        setTimerRunning(false);
         setTimeout(() => {
           setGuess('');
           setCurrentCharacter(null);
           startNewRound(remainingCharacters);
+          setTimerRunning(true);
         }, 1500);
       }
     }
@@ -123,6 +155,7 @@ export default function CharacterGuessingGame({ characters, totalCharacters, pro
     
     <div style={{ padding: '1rem', maxWidth: '800px', margin: '0 auto', display: 'flex', justifyContent: "center", alignItems: 'center', flexDirection: 'column'}}>
       <h1 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '1rem', fontFamily: "Inter", fontWeight: 800, fontStyle: "normal" }}>LoL Champion Recognition Test</h1>
+      <h2 style={{ fontSize: '1.25rem', fontWeight: 'bold', marginBottom: '1rem', fontFamily: "Inter", fontWeight: 500, fontStyle: "normal" }}>Time Remaining: {formatTime(timeLeft)}</h2>
       {!gameOver ? (
         <>
           <img
