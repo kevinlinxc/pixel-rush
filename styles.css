@@ -22,3 +22,18 @@ h3 {
     font-family: "Inter";
     margin-bottom: '10px';
 }
+
+.itemcenter {
+    flex: 0 1 auto;
+    position: absolute;
+    /* new */
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  .itemright {
+    flex: 0 1 auto;
+    margin-left: auto;
+    transform: translateX(30%);
+    /* new */
+}

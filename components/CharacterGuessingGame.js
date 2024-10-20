@@ -48,6 +48,36 @@ const ResolutionChart = ({ correctGuessData, currentResolution }) => (
     </ResponsiveContainer>
   );
 
+
+  const ResolutionCarousel = ({ currentResolution }) => {
+    return (
+      <div style={{ 
+        width: '30%', 
+        background: '#f0f0f0', 
+        padding: '10px', 
+        margin: '0px 0px 10px 0px',
+        position: 'relative'
+      }}>
+        <div style={{ 
+          display: 'flex', 
+          justifyContent: 'space-between'
+        }}>
+          {resolutions.map((res, index) => (
+            <div key={res} style={{
+              width: '30px',
+              textAlign: 'center',
+              fontSize: '12px',
+              color: index < currentResolution ? '#FF6347' : index === currentResolution ? '#32CD32' : '#333333',
+              fontWeight: index === currentResolution ? 'bold' : 'normal'
+            }}>
+              {res}
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
+
 export default function CharacterGuessingGame({ characters, totalCharacters, props }) {
   const [remainingCharacters, setRemainingCharacters] = useState([]);
   const [currentCharacter, setCurrentCharacter] = useState(null);
@@ -182,12 +212,13 @@ export default function CharacterGuessingGame({ characters, totalCharacters, pro
       <h2 style={{ fontSize: '1.25rem', fontWeight: 'bold', marginBottom: '1rem', fontFamily: "Inter", fontWeight: 500, fontStyle: "normal" }}>Time Remaining: {formatTime(timeLeft)}</h2>
       {!gameOver ? (
         <div style={{ display: 'flex', width: '100%', justifyContent: 'center' }}>
-          <div style={{ display:"flex", width: '50%', justifyContent: 'center', alignItems:"center", flexDirection: 'column' }}>
+          <div className="itemcenter" style={{ display:"flex", width: '50%', justifyContent: 'center', alignItems:"center", flexDirection: 'column'}}>
             <img
               src={`/pixel-brush/${resolutions[currentResolution]}-portraits/${characterFileName}.webp`}
               alt="Guess the character"
-              style={{ width: '50%', height: 'auto', marginBottom: '1rem', display: "flex", justifyContent: "center", alignItems: "center", }}
+              style={{ width: '35%', height: 'auto', marginBottom: '1rem', display: "flex", justifyContent: "center", alignItems: "center", }}
             />
+            <ResolutionCarousel currentResolution={currentResolution}/>
             <form onSubmit={handleGuess} style={{ marginBottom: '1rem', textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>
               <input
                 type="text"
@@ -219,7 +250,7 @@ export default function CharacterGuessingGame({ characters, totalCharacters, pro
             <p>Current Score: {score}/{(totalCharacters - remainingCharacters.length) * baseScore}</p>
             <p>Remaining characters: {remainingCharacters.length}</p>
           </div>
-          <div style={{ width: '45%' }}>
+          <div className="itemright" style={{ width: '45%' }}>
             <h3>Correct Guesses by Resolution</h3>
             <ResolutionChart correctGuessData={correctGuessData} currentResolution={resolutions[currentResolution]} />
           </div>
