@@ -1,0 +1,24 @@
+p {
+    font-family: "Inter";
+    margin: '4px';
+}
+
+h1 {
+    font-family: "Inter";
+}
+
+h2 {
+    font-family: "Inter";
+}
+
+h3 {
+    font-family: "Inter";
+    margin: '4px';
+}
+
+.alert {
+    padding: '10px';
+    border-radius: '4px';
+    font-family: "Inter";
+    margin-bottom: '10px';
+}

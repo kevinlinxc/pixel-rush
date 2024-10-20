@@ -3,6 +3,7 @@ import path from 'path';
 import CharacterGuessingGame from '../components/CharacterGuessingGame';
 
 export async function getStaticProps() {
+  const testing = true;
   const directoryPath = path.join(process.cwd(), 'public/full-portraits');
   const files = fs.readdirSync(directoryPath);
   const characters = files
@@ -11,17 +12,20 @@ export async function getStaticProps() {
       name: path.basename(file, '.webp'),
     }));
 
+  const limitedCharacters = testing ? characters.slice(0, 3) : characters;
+
   return {
     props: {
-      characters,
+      characters: limitedCharacters,
+      totalCharacters: limitedCharacters.length,
     },
   };
 }
 
-export default function Home({ characters }) {
+export default function Home({ characters, totalCharacters }) {
   return (
     <div>
-      <CharacterGuessingGame characters={characters} />
+      <CharacterGuessingGame characters={characters} totalCharacters={totalCharacters}/>
     </div>
   );
 }
