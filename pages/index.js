@@ -3,7 +3,7 @@ import path from 'path';
 import CharacterGuessingGame from '../components/CharacterGuessingGame';
 
 export async function getStaticProps() {
-  const testing = true;
+  const testing = false;
   const directoryPath = path.join(process.cwd(), 'public/full-portraits');
   const files = fs.readdirSync(directoryPath);
   const characters = files
