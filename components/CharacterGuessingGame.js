@@ -131,14 +131,14 @@ export default function CharacterGuessingGame({ characters, totalCharacters, pro
           <img
             src={`/${resolutions[currentResolution]}-portraits/${characterFileName}.webp`}
             alt="Guess the character"
-            style={{ width: '100%', height: 'auto', marginBottom: '1rem'}}
+            style={{ width: '50%', height: 'auto', marginBottom: '1rem'}}
           />
           <form onSubmit={handleGuess} style={{ marginBottom: '1rem', textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>
             <input
               type="text"
               value={guess}
               onChange={(e) => setGuess(e.target.value)}
-              placeholder="Enter champion name (case and symbols ignored)"
+              placeholder="Enter champion name (case & symbols ignored)"
               style={{ width: '160%', padding: '1rem', border: '1px solid #ccc', fontFamily: "Inter", fontWeight: 500, fontStyle: "normal" }}
               list="character-names"
 
@@ -148,11 +148,9 @@ export default function CharacterGuessingGame({ characters, totalCharacters, pro
                 <option key={char.name} value={char.name.replaceAll("_", " ")} />
               ))}
             </datalist>
-            <button type="submit" style={{
+            <button type="submit" class="bg-gradient-to-r from-green-500 to-purple-500 text-white" style={{
               marginTop: '0.5rem',
               width: '100%',
-              backgroundColor: '#3490dc',
-              color: 'white',
               padding: '0.5rem',
               border: 'none',
               cursor: 'pointer',
