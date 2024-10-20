@@ -129,7 +129,7 @@ export default function CharacterGuessingGame({ characters, totalCharacters, pro
       {!gameOver ? (
         <>
           <img
-            src={`/${resolutions[currentResolution]}-portraits/${characterFileName}.webp`}
+            src={`/pixel-brush/${resolutions[currentResolution]}-portraits/${characterFileName}.webp`}
             alt="Guess the character"
             style={{ width: '50%', height: 'auto', marginBottom: '1rem'}}
           />

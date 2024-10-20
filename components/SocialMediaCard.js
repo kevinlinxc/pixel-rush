@@ -8,7 +8,7 @@ export default function SocialMediaCard() {
         <h2 className="text-2xl font-bold text-center">Follow me!</h2>
       </div>
       <div className="p-2">
-        <img src="/assets/kevin-portait.webp" alt="Linguine Logo" className="w-36 h-36 mx-auto rounded-full"/>
+        <img src="/pixel-brush/assets/kevin-portait.webp" alt="Linguine Logo" className="w-36 h-36 mx-auto rounded-full"/>
       </div>
       <div className="flex flex-wrap justify-center space-x-4 p-4 w-full">
       <button
