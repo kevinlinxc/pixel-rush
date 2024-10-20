@@ -1,10 +1,8 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-    basePath: "/pixel-brush",
-    assetPrefix: "/pixel-brush/",
-    output: "export",  // <=== enables static exports
+const isDev = process.env.NODE_ENV !== "production";
+module.exports = {
+    basePath: isDev ? "": "/pixel-brush",
+    output: "export",
     reactStrictMode: true,
-  };
-  
-  module.exports = nextConfig;
+}
   
