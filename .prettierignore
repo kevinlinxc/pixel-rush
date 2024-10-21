@@ -4,3 +4,4 @@ coverage
 .venv
 node_modules
 *.yaml
+*.yml

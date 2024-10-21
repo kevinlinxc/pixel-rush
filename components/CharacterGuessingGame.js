@@ -43,9 +43,11 @@ const CorrectAlert = ({ message }) => (
 
 const ResolutionChart = ({ correctGuessData, orientation }) =>
   orientation === 'horizontal' ? (
-    <ResponsiveContainer width="100%" height={300}>
+    <ResponsiveContainer width="100%" height={315} className={'rounded-lg shadow-lg outline-black'}>
       <text x={500 / 2} y={20} fill="black" textAnchor="middle" dominantBaseline="central">
-        <tspan fontSize="14">Guess Statistics</tspan>
+        <tspan fontSize="14" className="bg-green-400">
+          Guess Statistics
+        </tspan>
       </text>
       <BarChart
         data={correctGuessData}
@@ -53,7 +55,7 @@ const ResolutionChart = ({ correctGuessData, orientation }) =>
           top: 5,
           right: 30,
           left: 0,
-          bottom: 5,
+          bottom: 30,
         }}
       >
         <XAxis dataKey="name" />
@@ -123,7 +125,7 @@ const ResolutionCarousel = ({ currentResolution }) => {
   );
 };
 
-export default function CharacterGuessingGame({ characters, totalCharacters, props }) {
+export default function CharacterGuessingGame({ characters, totalCharacters }) {
   const [remainingCharacters, setRemainingCharacters] = useState([]);
   const [currentCharacter, setCurrentCharacter] = useState(null);
   const [currentResolution, setCurrentResolution] = useState(0);
@@ -138,6 +140,7 @@ export default function CharacterGuessingGame({ characters, totalCharacters, pro
     resolutions.map((res) => ({ name: res, correctGuesses: 0 })),
   );
   const [bestGuesses, setBestGuesses] = useState([]); // tuples of (character, resolution)
+  const [finalTimeTaken, setFinalTimeTaken] = useState(0);
 
   // define some character name mappings for colloquial to actual names
   // don't need to do this for characters with spsaces or symbols, those are handled by normalizeString
@@ -175,6 +178,7 @@ export default function CharacterGuessingGame({ characters, totalCharacters, pro
           }
         } else {
           setGameOver(true);
+          setFinalTimeTaken(totalTime - timeLeft);
           clearInterval(interval);
           return 0;
         }
@@ -230,6 +234,7 @@ export default function CharacterGuessingGame({ characters, totalCharacters, pro
         }, 1000);
       } else {
         setGameOver(true);
+        setFinalTimeTaken(totalTime - timeLeft);
       }
     } else {
       if (currentResolution < resolutions.length - 1) {
@@ -377,7 +382,7 @@ export default function CharacterGuessingGame({ characters, totalCharacters, pro
             <p>Remaining characters: {remainingCharacters.length}</p>
           </div>
           <div className="itemright" style={{ width: '45%' }}>
-            <h3>Correct Guesses by Resolution</h3>
+            <h3 className="pl-24">Guess statistics</h3>
             <ResolutionChart correctGuessData={correctGuessData} orientation="vertical" />
           </div>
         </div>
@@ -392,12 +397,19 @@ export default function CharacterGuessingGame({ characters, totalCharacters, pro
             flexDirection: 'column',
           }}
         >
+           <p className="pb-4 underline text-blue-600 hover:text-blue-800 visited:text-purple-600"><a href="https://kevinlinxc.com/pixel-brush/">kevinlinxc.com/pixel-brush</a></p> 
           <h1 style={{ fontSize: '1.25rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
             Final Score:
           </h1>
           <h2 className="text-5xl font-black">
             {score}/{totalCharacters * baseScore}
           </h2>
+          <h3
+            className="pt-4"
+            style={{ fontSize: '1rem', fontWeight: 'bold', marginBottom: '1rem' }}
+          >
+            Time Taken: {formatTime(finalTimeTaken)}{' '}
+          </h3>
           <div
             style={{
               textAlign: 'center',

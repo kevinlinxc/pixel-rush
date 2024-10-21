@@ -24,8 +24,23 @@ export async function getStaticProps() {
 
 export default function Home({ characters, totalCharacters }) {
   return (
+    <div class="flex flex-col h-screen justify-between">
     <div>
       <CharacterGuessingGame characters={characters} totalCharacters={totalCharacters} />
+    </div>
+    <footer>
+        <p className="text-gray-400 text-sm text-center pb-5">
+            Made with ♥ by {' '}
+            <a
+                className="text-blue-500 hover:underline"
+                href="https://twitter.com/intent/follow?screen_name=linguinelabs"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                @linguinelabs
+            </a>
+        </p>
+    </footer>
     </div>
   );
 }
