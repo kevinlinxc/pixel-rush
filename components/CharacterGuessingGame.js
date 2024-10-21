@@ -275,29 +275,6 @@ export default function CharacterGuessingGame({ characters, totalCharacters }) {
     setBestGuesses(updatedBestGuesses.slice(0, recapAmount));
   };
 
-  const handleLeaderboardSubmit = async () => {
-    //    const response = await fetch('', {
-    //       method: 'POST',
-    //       body: JSON.stringify({
-    //         leaderboardName,
-    //         score,
-    //         finalTimeTaken,
-    //       }),
-    //       headers: {
-    //         'Content-Type': 'application/json',
-    //       },
-    //     });
-
-    // if (response.ok) {
-    //     alert('Score submitted successfully!');
-    // } else {
-    //   alert('Error submitting score');
-    // }
-    alert(
-      "Ngl I couldn't figure out how to do this so maybe just record your runs and DM me or Tweet at me or something if you want to be on a leaderboard. Or, if you're a developer, help me out https://github.com/kevinlinxc/pixel-brush/issues/1",
-    );
-  };
-
   if (!currentCharacter) return <div>Loading...</div>;
 
   return (
@@ -522,41 +499,21 @@ export default function CharacterGuessingGame({ characters, totalCharacters }) {
 
           {/* bottom section */}
           <div style={{ display: 'flex', alignItems: 'center', width: '800px' }}>
-            {/* Text Input and Submit Button */}
-
-            <form
-              onSubmit={handleLeaderboardSubmit}
-              style={{ display: 'flex', width: '100%', alignItems: 'center' }}
+            {/* Submit score button */}
+            <button
+              className="mr-16 w-1/2 rounded-lg bg-blue-500 text-white"
+              onClick={() => window.open('https://forms.gle/CY8UxxQfx11xeRNm8', '_blank')}
+              style={{
+                padding: '0.5rem',
+                border: 'none',
+                cursor: 'pointer',
+                verticalAlign: 'middle',
+                fontFamily: 'Inter',
+                padding: '1rem',
+              }}
             >
-              <input
-                type="text"
-                placeholder="@twitterhandle or RiotID#NA1"
-                onChange={(e) => setLeaderboardName(e.target.value)}
-                style={{
-                  width: '150%',
-                  padding: '0.5rem',
-                  border: '1px solid #ccc',
-                  borderRadius: '4px',
-                  marginRight: '1rem',
-                  fontFamily: 'Inter',
-                }}
-              />
-              <button
-                className="mr-16 rounded-lg bg-blue-500 text-white"
-                type=""
-                style={{
-                  width: '100%',
-                  padding: '0.5rem',
-                  border: 'none',
-                  cursor: 'pointer',
-                  verticalAlign: 'middle',
-                  fontFamily: 'Inter',
-                  padding: '1rem',
-                }}
-              >
-                Submit score
-              </button>
-            </form>
+              Submit score
+            </button>
             <button
               onClick={() => (window.location.href = 'pixel-brush/')}
               className="w-1/2 rounded-lg bg-blue-500 text-white"
