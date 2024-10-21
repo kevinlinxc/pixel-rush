@@ -6,12 +6,12 @@ const resolutions = ['3x3', '4x4', '5x5', '8x8', '12x12', 'full'];
 const baseScore = 10;
 
 function normalizeString(str) {
-  return str.toLowerCase().replace(/[^a-z]/g, '');
+  return str.toLowerCase().replace(/[^a-z0-9]/g, '');
 }
 
 function getCharacterImage(character, resolution) {
   const characterFileName =
-    resolution === resolutions.length - 1 ? current.name : btoa(character.name);
+    resolution === resolutions.length - 1 ? character.name : btoa(character.name);
   return `/pixel-brush/${resolutions[resolution]}-portraits/${characterFileName}.webp`;
 }
 
@@ -135,12 +135,12 @@ export default function CharacterGuessingGame({ characters, totalCharacters }) {
   const [message, setMessage] = useState('');
   const totalTime = 10 * 60;
   const [timeLeft, setTimeLeft] = useState(totalTime);
-  const [timerRunning, setTimerRunning] = useState(true);
+  const [betweenRounds, setBetweenRounds] = useState(false);
   const [correctGuessData, setCorrectGuessData] = useState(
     resolutions.map((res) => ({ name: res, correctGuesses: 0 })),
   );
-  const [bestGuesses, setBestGuesses] = useState([]); // tuples of (character, resolution)
   const [finalTimeTaken, setFinalTimeTaken] = useState(0);
+  const [bestGuesses, setBestGuesses] = useState([]); // tuples of (character, resolution)
 
   // define some character name mappings for colloquial to actual names
   // don't need to do this for characters with spsaces or symbols, those are handled by normalizeString
@@ -171,11 +171,11 @@ export default function CharacterGuessingGame({ characters, totalCharacters }) {
     const interval = setInterval(() => {
       setTimeLeft((prevTimeLeft) => {
         if (prevTimeLeft > 0) {
-          if (timerRunning) {
-            return prevTimeLeft - 1;
-          } else {
-            return prevTimeLeft;
-          }
+            if (betweenRounds) {
+                return prevTimeLeft;
+            } else {
+                return prevTimeLeft - 1;
+            }
         } else {
           setGameOver(true);
           setFinalTimeTaken(totalTime - timeLeft);
@@ -211,7 +211,7 @@ export default function CharacterGuessingGame({ characters, totalCharacters }) {
     ) {
       const roundScore = calculateScore();
       setScore((prevScore) => prevScore + roundScore);
-      setTimerRunning(false);
+      setBetweenRounds(true);
       setMessage(`Correct! You scored ${roundScore} points.`);
 
       // Update correct guess count for the current resolution
@@ -228,9 +228,8 @@ export default function CharacterGuessingGame({ characters, totalCharacters }) {
       if (updatedCharacters.length > 0) {
         setTimeout(() => {
           setGuess('');
-          setCurrentCharacter(null);
           startNewRound(updatedCharacters);
-          setTimerRunning(true);
+          setBetweenRounds(false);
         }, 1000);
       } else {
         setGameOver(true);
@@ -243,12 +242,15 @@ export default function CharacterGuessingGame({ characters, totalCharacters }) {
         setGuess('');
       } else {
         setMessage(`Incorrect. The correct answer was ${currentCharacter.name}.`);
-        setTimerRunning(false);
+        setBetweenRounds(true);
+        const updatedCharacters = remainingCharacters.filter(
+            (char) => char.name !== currentCharacter.name,
+          );
+        setRemainingCharacters(updatedCharacters);
         setTimeout(() => {
           setGuess('');
-          setCurrentCharacter(null);
           startNewRound(remainingCharacters);
-          setTimerRunning(true);
+          setBetweenRounds(false);
         }, 1500);
       }
     }
@@ -287,6 +289,25 @@ export default function CharacterGuessingGame({ characters, totalCharacters }) {
       </h1>
       {!gameOver ? (
         <div style={{ display: 'flex', width: '100%', justifyContent: 'center' }}>
+        {betweenRounds && currentResolution != resolutions.length - 1? (
+            // show correct character between rounds when user gets it right
+        <div className="itemleft" style={{ width: '50%' }}>
+            <img
+           src={getCharacterImage(currentCharacter, resolutions.length - 1)}
+              alt="Correct character"
+              style={{
+                width: '45%',
+                height: 'auto',
+                marginBottom: '1rem',
+                marginTop: '4rem',
+                marginLeft: '3rem',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }} 
+              ></img>
+        </div>
+    ) : null}
           <div
             className="itemcenter"
             style={{

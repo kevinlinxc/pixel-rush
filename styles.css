@@ -37,3 +37,11 @@ h3 {
     transform: translateX(30%);
     /* new */
 }
+
+/* lol if i remove this it breaks even though nothing uses this... */
+.itemlight {
+    flex: 0 1 auto;
+    margin-right: auto;
+    transform: translateX(-80%);
+    /* new */
+}
