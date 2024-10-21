@@ -17,6 +17,7 @@ To run the site locally:
 -> go to localhost:3000/pixel-rush
 
 ### Adding new character
+
 Portraits are stored in the `/public/` folder.
 
 1. Add their 120x120 webp to pixel-rush/full-portaits. Make sure it's named just their champname.webp, with underscores for spaces

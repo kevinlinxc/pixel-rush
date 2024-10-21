@@ -4,6 +4,7 @@ import SocialMediaCard from '../components/SocialMediaCard';
 
 const resolutions = ['3x3', '4x4', '5x5', '8x8', '12x12', 'full'];
 const baseScore = 10;
+const recapAmount = 6;
 
 function normalizeString(str) {
   return str.toLowerCase().replace(/[^a-z0-9]/g, '');
@@ -43,7 +44,7 @@ const CorrectAlert = ({ message }) => (
 
 const ResolutionChart = ({ correctGuessData, orientation }) =>
   orientation === 'horizontal' ? (
-    <ResponsiveContainer width="100%" height={315} className={'rounded-lg shadow-lg outline-black'}>
+    <ResponsiveContainer width="100%" height={300}>
       <text x={500 / 2} y={20} fill="black" textAnchor="middle" dominantBaseline="central">
         <tspan fontSize="14" className="bg-green-400">
           Guess Statistics
@@ -139,8 +140,8 @@ export default function CharacterGuessingGame({ characters, totalCharacters }) {
   const [correctGuessData, setCorrectGuessData] = useState(
     resolutions.map((res) => ({ name: res, correctGuesses: 0 })),
   );
-  const [finalTimeTaken, setFinalTimeTaken] = useState(0);
   const [bestGuesses, setBestGuesses] = useState([]); // tuples of (character, resolution)
+  const [finalTimeTaken, setFinalTimeTaken] = useState(0);
 
   // define some character name mappings for colloquial to actual names
   // don't need to do this for characters with spsaces or symbols, those are handled by normalizeString
@@ -171,11 +172,11 @@ export default function CharacterGuessingGame({ characters, totalCharacters }) {
     const interval = setInterval(() => {
       setTimeLeft((prevTimeLeft) => {
         if (prevTimeLeft > 0) {
-            if (betweenRounds) {
-                return prevTimeLeft;
-            } else {
-                return prevTimeLeft - 1;
-            }
+          if (betweenRounds) {
+            return prevTimeLeft;
+          } else {
+            return prevTimeLeft - 1;
+          }
         } else {
           setGameOver(true);
           setFinalTimeTaken(totalTime - timeLeft);
@@ -209,6 +210,7 @@ export default function CharacterGuessingGame({ characters, totalCharacters }) {
       normalizeString(guess) === normalizeString(currentCharacter.name) ||
       nameMappings[normalizeString(guess)] === normalizeString(currentCharacter.name)
     ) {
+      // correct guess
       const roundScore = calculateScore();
       setScore((prevScore) => prevScore + roundScore);
       setBetweenRounds(true);
@@ -220,6 +222,9 @@ export default function CharacterGuessingGame({ characters, totalCharacters }) {
           index === currentResolution ? { ...item, correctGuesses: item.correctGuesses + 1 } : item,
         ),
       );
+
+      // update best guesses
+      updateBestGuesses(currentCharacter, currentResolution);
 
       const updatedCharacters = remainingCharacters.filter(
         (char) => char.name !== currentCharacter.name,
@@ -236,16 +241,18 @@ export default function CharacterGuessingGame({ characters, totalCharacters }) {
         setFinalTimeTaken(totalTime - timeLeft);
       }
     } else {
+      //incorrect guess, move to next resolution if possible
       if (currentResolution < resolutions.length - 1) {
         setCurrentResolution((prevRes) => prevRes + 1);
         setMessage('Wrong! You guessed: ' + guess);
         setGuess('');
       } else {
+        // incorrect guess on final resolution
         setMessage(`Incorrect. The correct answer was ${currentCharacter.name}.`);
         setBetweenRounds(true);
         const updatedCharacters = remainingCharacters.filter(
-            (char) => char.name !== currentCharacter.name,
-          );
+          (char) => char.name !== currentCharacter.name,
+        );
         setRemainingCharacters(updatedCharacters);
         setTimeout(() => {
           setGuess('');
@@ -261,13 +268,21 @@ export default function CharacterGuessingGame({ characters, totalCharacters }) {
     return Math.max(baseScore - resolutionPenalty, 1);
   };
 
+  const updateBestGuesses = (character, resolution) => {
+    // store the best 4 guesses of the game
+    const newGuess = { character, resolution };
+    const updatedBestGuesses = [...bestGuesses, newGuess].sort((a, b) => b);
+    setBestGuesses(updatedBestGuesses.slice(0, recapAmount));
+    console.log(bestGuesses);
+  };
+
   if (!currentCharacter) return <div>Loading...</div>;
 
   return (
     <div
       style={{
         padding: '1rem',
-        maxWidth: '1200px',
+        maxWidth: '1400px',
         margin: '0 auto',
         display: 'flex',
         justifyContent: 'center',
@@ -289,25 +304,25 @@ export default function CharacterGuessingGame({ characters, totalCharacters }) {
       </h1>
       {!gameOver ? (
         <div style={{ display: 'flex', width: '100%', justifyContent: 'center' }}>
-        {betweenRounds && currentResolution != resolutions.length - 1? (
+          {betweenRounds && currentResolution != resolutions.length - 1 ? (
             // show correct character between rounds when user gets it right
-        <div className="itemleft" style={{ width: '50%' }}>
-            <img
-           src={getCharacterImage(currentCharacter, resolutions.length - 1)}
-              alt="Correct character"
-              style={{
-                width: '45%',
-                height: 'auto',
-                marginBottom: '1rem',
-                marginTop: '4rem',
-                marginLeft: '3rem',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }} 
+            <div className="itemleft" style={{ width: '50%' }}>
+              <img
+                src={getCharacterImage(currentCharacter, resolutions.length - 1)}
+                alt="Correct character"
+                style={{
+                  width: '45%',
+                  height: 'auto',
+                  marginBottom: '1rem',
+                  marginTop: '4rem',
+                  marginLeft: '3rem',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
               ></img>
-        </div>
-    ) : null}
+            </div>
+          ) : null}
           <div
             className="itemcenter"
             style={{
@@ -418,7 +433,9 @@ export default function CharacterGuessingGame({ characters, totalCharacters }) {
             flexDirection: 'column',
           }}
         >
-           <p className="pb-4 underline text-blue-600 hover:text-blue-800 visited:text-purple-600"><a href="https://kevinlinxc.com/pixel-brush/">kevinlinxc.com/pixel-brush</a></p> 
+          <p className="pb-4 text-blue-600 underline visited:text-purple-600 hover:text-blue-800">
+            <a href="https://kevinlinxc.com/pixel-brush/">kevinlinxc.com/pixel-brush</a>
+          </p>
           <h1 style={{ fontSize: '1.25rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
             Final Score:
           </h1>
@@ -439,8 +456,43 @@ export default function CharacterGuessingGame({ characters, totalCharacters }) {
               justifyContent: 'center',
             }}
           >
-            <div className="w-full p-4" style={{ margin: '0 auto' }}>
+            <div
+              className="w-4/12 rounded-lg p-4 shadow-[1px_10px_15px_5px_rgba(0,0,0,0.1)]"
+              style={{ margin: '0 auto' }}
+            >
               <ResolutionChart correctGuessData={correctGuessData} orientation="horizontal" />
+            </div>
+            <div className="m-8 w-4/12 rounded-lg p-4 shadow-[1px_10px_15px_5px_rgba(0,0,0,0.1)]">
+              <h3 className="text-lg font-bold">Best Guesses:</h3>
+              <ul
+                style={{
+                  display: 'flex',
+                  flexWrap: 'wrap', // allows wrapping of items
+                  gap: '1rem', // spacing between the items
+                }}
+              >
+                {bestGuesses.map((guess, index) => (
+                  <li
+                    className="m-2 p-0"
+                    key={index}
+                    style={{
+                      flex: '1 1 calc(33.00% - 2rem)', // 3 items per row
+                      boxSizing: 'border-box',
+                    }}
+                  >
+                    <img
+                      src={getCharacterImage(guess.character, guess.resolution)}
+                      alt={guess.character.name}
+                      style={{
+                        width: '100px',
+                        height: '100px',
+                        objectFit: 'cover', // ensure the image fits within the set size without distortion
+                      }}
+                    />
+                    <p>{guess.character.name}</p>
+                  </li>
+                ))}
+              </ul>
             </div>
             <SocialMediaCard />
           </div>

@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/kevinlinxc/lol-brainrot-test#readme",
   "dependencies": {
+    "@next/third-parties": "^14.2.15",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "lucide-react": "^0.453.0",

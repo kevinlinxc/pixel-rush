@@ -1,7 +1,13 @@
 import '../styles.css';
 import '../styles/globals.css';
 
-// This default export is required in a new `pages/_app.js` file.
+import { GoogleAnalytics } from '@next/third-parties/google';
+
 export default function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />;
+  return (
+    <>
+      <Component {...pageProps} />
+      <GoogleAnalytics gaId="G-0L8LSTFYY1" />
+    </>
+  );
 }

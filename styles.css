@@ -1,47 +1,47 @@
 p {
-    font-family: "Inter";
-    margin: '4px';
+  font-family: 'Inter';
+  margin: '4px';
 }
 
 h1 {
-    font-family: "Inter";
+  font-family: 'Inter';
 }
 
 h2 {
-    font-family: "Inter";
+  font-family: 'Inter';
 }
 
 h3 {
-    font-family: "Inter";
-    margin: '4px';
+  font-family: 'Inter';
+  margin: '4px';
 }
 
 .alert {
-    padding: '10px';
-    border-radius: '4px';
-    font-family: "Inter";
-    margin-bottom: '10px';
+  padding: '10px';
+  border-radius: '4px';
+  font-family: 'Inter';
+  margin-bottom: '10px';
 }
 
 .itemcenter {
-    flex: 0 1 auto;
-    position: absolute;
-    /* new */
-    left: 50%;
-    transform: translateX(-50%);
-  }
-  
-  .itemright {
-    flex: 0 1 auto;
-    margin-left: auto;
-    transform: translateX(30%);
-    /* new */
+  flex: 0 1 auto;
+  position: absolute;
+  /* new */
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.itemright {
+  flex: 0 1 auto;
+  margin-left: auto;
+  transform: translateX(30%);
+  /* new */
 }
 
 /* lol if i remove this it breaks even though nothing uses this... */
 .itemlight {
-    flex: 0 1 auto;
-    margin-right: auto;
-    transform: translateX(-80%);
-    /* new */
+  flex: 0 1 auto;
+  margin-right: auto;
+  transform: translateX(-80%);
+  /* new */
 }
