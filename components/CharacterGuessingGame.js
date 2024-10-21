@@ -7,7 +7,6 @@ const baseScore = 10;
 const recapAmount = 6;
 const totalTime = 10 * 60;
 
-
 function normalizeString(str) {
   return str.toLowerCase().replace(/[^a-z0-9]/g, '');
 }
@@ -48,9 +47,7 @@ const ResolutionChart = ({ correctGuessData, orientation }) =>
   orientation === 'horizontal' ? (
     <ResponsiveContainer width="100%" height={300}>
       <text x={500 / 2} y={20} fill="black" textAnchor="middle" dominantBaseline="central">
-        <tspan fontSize="14">
-          Guess Statistics
-        </tspan>
+        <tspan fontSize="14">Guess Statistics</tspan>
       </text>
       <BarChart
         data={correctGuessData}
@@ -143,6 +140,7 @@ export default function CharacterGuessingGame({ characters, totalCharacters }) {
   );
   const [bestGuesses, setBestGuesses] = useState([]); // tuples of (character, resolution)
   const [finalTimeTaken, setFinalTimeTaken] = useState(0);
+  const [leaderboardName, setLeaderboardName] = useState('');
 
   // define some character name mappings for colloquial to actual names
   // don't need to do this for characters with spsaces or symbols, those are handled by normalizeString
@@ -275,6 +273,29 @@ export default function CharacterGuessingGame({ characters, totalCharacters }) {
     const newGuess = { character, resolution };
     const updatedBestGuesses = [...bestGuesses, newGuess].sort((a, b) => b);
     setBestGuesses(updatedBestGuesses.slice(0, recapAmount));
+  };
+
+  const handleLeaderboardSubmit = async () => {
+    //    const response = await fetch('', {
+    //       method: 'POST',
+    //       body: JSON.stringify({
+    //         leaderboardName,
+    //         score,
+    //         finalTimeTaken,
+    //       }),
+    //       headers: {
+    //         'Content-Type': 'application/json',
+    //       },
+    //     });
+
+    // if (response.ok) {
+    //     alert('Score submitted successfully!');
+    // } else {
+    //   alert('Error submitting score');
+    // }
+    alert(
+      "Ngl I couldn't figure out how to do this so maybe just record your runs and DM me or Tweet at me or something if you want to be on a leaderboard. Or, if you're a developer, help me out https://github.com/kevinlinxc/pixel-brush/issues/1",
+    );
   };
 
   if (!currentCharacter) return <div>Loading...</div>;
@@ -500,25 +521,58 @@ export default function CharacterGuessingGame({ characters, totalCharacters }) {
           </div>
 
           {/* bottom section */}
-          <div>
-          <button onClick={() => window.location.href = 'pixel-brush/'}
-            className="bg-blue-500 text-white rounded-lg"
+          <div style={{ display: 'flex', alignItems: 'center', width: '800px' }}>
+            {/* Text Input and Submit Button */}
 
-            style={{
-                marginTop: '0.5rem',
-                width: '100%',
+            <form
+              onSubmit={handleLeaderboardSubmit}
+              style={{ display: 'flex', width: '100%', alignItems: 'center' }}
+            >
+              <input
+                type="text"
+                placeholder="@twitterhandle or RiotID#NA1"
+                onChange={(e) => setLeaderboardName(e.target.value)}
+                style={{
+                  width: '150%',
+                  padding: '0.5rem',
+                  border: '1px solid #ccc',
+                  borderRadius: '4px',
+                  marginRight: '1rem',
+                  fontFamily: 'Inter',
+                }}
+              />
+              <button
+                className="mr-16 rounded-lg bg-blue-500 text-white"
+                type=""
+                style={{
+                  width: '100%',
+                  padding: '0.5rem',
+                  border: 'none',
+                  cursor: 'pointer',
+                  verticalAlign: 'middle',
+                  fontFamily: 'Inter',
+                  padding: '1rem',
+                }}
+              >
+                Submit score
+              </button>
+            </form>
+            <button
+              onClick={() => (window.location.href = 'pixel-brush/')}
+              className="w-1/2 rounded-lg bg-blue-500 text-white"
+              style={{
                 padding: '0.5rem',
                 border: 'none',
                 cursor: 'pointer',
                 verticalAlign: 'middle',
                 fontFamily: 'Inter',
                 padding: '1rem',
-              }}>
-            Play again!
-          </button>
-
+              }}
+            >
+              Play again!
+            </button>
           </div>
-        </div>  
+        </div>
       )}
     </div>
   );

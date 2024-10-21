@@ -12,7 +12,7 @@ export default function SocialMediaCard() {
           <img
             src="/pixel-brush/assets/kevin-portait.webp"
             alt="Linguine Logo"
-            className="m-0 w-auto w-4/5 rounded-full"
+            className="m-0 w-4/5 w-auto rounded-full"
           />
         </div>
         <ul className="m4-8 mr-4">
