@@ -46,7 +46,7 @@ const ResolutionChart = ({ correctGuessData, orientation }) =>
   orientation === 'horizontal' ? (
     <ResponsiveContainer width="100%" height={300}>
       <text x={500 / 2} y={20} fill="black" textAnchor="middle" dominantBaseline="central">
-        <tspan fontSize="14" className="bg-green-400">
+        <tspan fontSize="14">
           Guess Statistics
         </tspan>
       </text>
@@ -448,6 +448,7 @@ export default function CharacterGuessingGame({ characters, totalCharacters }) {
           >
             Time Taken: {formatTime(finalTimeTaken)}{' '}
           </h3>
+          {/* 3 cards */}
           <div
             style={{
               textAlign: 'center',
@@ -496,7 +497,27 @@ export default function CharacterGuessingGame({ characters, totalCharacters }) {
             </div>
             <SocialMediaCard />
           </div>
-        </div>
+
+          {/* bottom section */}
+          <div>
+          <button onClick={() => window.location.href = 'pixel-brush/'}
+            className="bg-blue-500 text-white rounded-lg"
+
+            style={{
+                marginTop: '0.5rem',
+                width: '100%',
+                padding: '0.5rem',
+                border: 'none',
+                cursor: 'pointer',
+                verticalAlign: 'middle',
+                fontFamily: 'Inter',
+                padding: '1rem',
+              }}>
+            Play again!
+          </button>
+
+          </div>
+        </div>  
       )}
     </div>
   );
