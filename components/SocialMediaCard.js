@@ -7,12 +7,12 @@ export default function SocialMediaCard() {
       <div className="rounded-t-lg bg-gradient-to-r from-green-500 to-purple-500 p-1 pb-1 text-white">
         <h2 className="text-center text-2xl font-bold">Follow me!</h2>
       </div>
-      <div className="flex h-full items-center">
-        <div className="m-6">
+      <div className="flex h-full items-center pr-6">
+        <div className="m-6 mr-0 pr-0">
           <img
             src="/pixel-brush/assets/kevin-portait.webp"
             alt="Linguine Logo"
-            className="mx-auto h-36 w-36 rounded-full"
+            className="m-0 w-auto w-4/5 rounded-full"
           />
         </div>
         <ul className="m4-8 mr-4">

@@ -5,6 +5,8 @@ import SocialMediaCard from '../components/SocialMediaCard';
 const resolutions = ['3x3', '4x4', '5x5', '8x8', '12x12', 'full'];
 const baseScore = 10;
 const recapAmount = 6;
+const totalTime = 10 * 60;
+
 
 function normalizeString(str) {
   return str.toLowerCase().replace(/[^a-z0-9]/g, '');
@@ -134,7 +136,6 @@ export default function CharacterGuessingGame({ characters, totalCharacters }) {
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(false);
   const [message, setMessage] = useState('');
-  const totalTime = 10 * 60;
   const [timeLeft, setTimeLeft] = useState(totalTime);
   const [betweenRounds, setBetweenRounds] = useState(false);
   const [correctGuessData, setCorrectGuessData] = useState(
@@ -178,8 +179,8 @@ export default function CharacterGuessingGame({ characters, totalCharacters }) {
             return prevTimeLeft - 1;
           }
         } else {
+          setFinalTimeTaken(totalTime);
           setGameOver(true);
-          setFinalTimeTaken(totalTime - timeLeft);
           clearInterval(interval);
           return 0;
         }
@@ -237,8 +238,9 @@ export default function CharacterGuessingGame({ characters, totalCharacters }) {
           setBetweenRounds(false);
         }, 1000);
       } else {
-        setGameOver(true);
         setFinalTimeTaken(totalTime - timeLeft);
+
+        setGameOver(true);
       }
     } else {
       //incorrect guess, move to next resolution if possible
@@ -273,7 +275,6 @@ export default function CharacterGuessingGame({ characters, totalCharacters }) {
     const newGuess = { character, resolution };
     const updatedBestGuesses = [...bestGuesses, newGuess].sort((a, b) => b);
     setBestGuesses(updatedBestGuesses.slice(0, recapAmount));
-    console.log(bestGuesses);
   };
 
   if (!currentCharacter) return <div>Loading...</div>;
