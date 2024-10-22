@@ -125,7 +125,7 @@ const ResolutionCarousel = ({ currentResolution }) => {
   );
 };
 
-export default function CharacterGuessingGame({ characters, totalCharacters }) {
+export default function CharacterGuessingGame({ characters, totalCharacters, gameStarted}) {
   const [remainingCharacters, setRemainingCharacters] = useState([]);
   const [currentCharacter, setCurrentCharacter] = useState(null);
   const [currentResolution, setCurrentResolution] = useState(0);
@@ -168,6 +168,7 @@ export default function CharacterGuessingGame({ characters, totalCharacters }) {
   }, [characters, remainingCharacters]);
 
   useEffect(() => {
+    if (gameStarted) {
     const interval = setInterval(() => {
       setTimeLeft((prevTimeLeft) => {
         if (prevTimeLeft > 0) {
@@ -186,7 +187,8 @@ export default function CharacterGuessingGame({ characters, totalCharacters }) {
     }, 1000);
 
     return () => clearInterval(interval); // Clean up interval on component unmount
-  }, []);
+}
+  }, [gameStarted, betweenRounds]);
 
   const formatTime = (time) => {
     const minutes = Math.floor(time / 60);
