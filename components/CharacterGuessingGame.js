@@ -500,7 +500,7 @@ export default function CharacterGuessingGame({ characters, totalCharacters, gam
           </div>
 
           {/* bottom section */}
-          <div style={{ display: 'flex', alignItems: 'center', width: '800px' }}>
+          <div className="mt-4" style={{ display: 'flex', alignItems: 'center', width: '800px' }}>
             {/* Submit score button */}
             <button
               className="mr-16 w-1/2 rounded-lg bg-blue-500 text-white"
