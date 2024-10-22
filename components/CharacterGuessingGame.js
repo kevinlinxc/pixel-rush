@@ -466,7 +466,7 @@ export default function CharacterGuessingGame({ characters, totalCharacters, gam
               <ResolutionChart correctGuessData={correctGuessData} orientation="horizontal" />
             </div>
             <div className="m-8 w-4/12 rounded-lg p-4 shadow-[1px_10px_15px_5px_rgba(0,0,0,0.1)]">
-              <h3 className="text-lg font-bold">Best Guesses:</h3>
+              <h3 className="text-lg font-bold">Some of your guesses:</h3>
               <ul
                 style={{
                   display: 'flex',
