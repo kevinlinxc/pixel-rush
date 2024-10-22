@@ -517,7 +517,7 @@ export default function CharacterGuessingGame({ characters, totalCharacters, gam
               Submit score
             </button>
             <button
-              onClick={() => (window.location.href = 'pixel-brush/')}
+              onClick={() => (window.location.reload())}
               className="w-1/2 rounded-lg bg-blue-500 text-white"
               style={{
                 padding: '0.5rem',
