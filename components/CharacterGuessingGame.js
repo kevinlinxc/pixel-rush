@@ -87,6 +87,7 @@ const ResolutionChart = ({ correctGuessData, orientation }) =>
 const ResolutionCarousel = ({ currentResolution }) => {
   return (
     <div
+      className="invisible md:visible"
       style={{
         width: '30%',
         background: '#f0f0f0',
@@ -487,11 +488,11 @@ export default function CharacterGuessingGame({ characters, totalCharacters, gam
                       alt={guess.character.name}
                       style={{
                         width: '100px',
-                        height: '100px',
+                        height: 'auto',
                         objectFit: 'cover', // ensure the image fits within the set size without distortion
                       }}
                     />
-                    <p>{guess.character.name}</p>
+                    <p>{guess.character.name.replaceAll("_", "")}</p>
                   </li>
                 ))}
               </ul>
