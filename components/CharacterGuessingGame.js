@@ -418,7 +418,7 @@ export default function CharacterGuessingGame({ characters, totalCharacters, gam
             </p>
             <p>Remaining characters: {remainingCharacters.length}</p>
           </div>
-          <div className="itemright" style={{ width: '45%' }}>
+          <div className="itemright invisible md:visible" style={{ width: '45%' }}>
             <h3 className="pl-24">Guess statistics</h3>
             <ResolutionChart correctGuessData={correctGuessData} orientation="vertical" />
           </div>
@@ -459,7 +459,7 @@ export default function CharacterGuessingGame({ characters, totalCharacters, gam
             }}
           >
             <div
-              className="w-4/12 rounded-lg p-4 shadow-[1px_10px_15px_5px_rgba(0,0,0,0.1)]"
+              className="w-4/12 rounded-lg p-4 shadow-[1px_10px_15px_5px_rgba(0,0,0,0.1)] invisible md:visible"
               style={{ margin: '0 auto' }}
             >
               <ResolutionChart correctGuessData={correctGuessData} orientation="horizontal" />

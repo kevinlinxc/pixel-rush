@@ -3,7 +3,7 @@ import { Twitter, Youtube, Github } from 'lucide-react';
 
 export default function SocialMediaCard() {
   return (
-    <div className="w-4/12 rounded-lg shadow-[1px_10px_15px_5px_rgba(0,0,0,0.1)]">
+    <div className="w-4/12 rounded-lg shadow-[1px_10px_15px_5px_rgba(0,0,0,0.1)] invisible md:visible">
       <div className="rounded-t-lg bg-gradient-to-r from-green-500 to-purple-500 p-1 pb-1 text-white">
         <h2 className="text-center text-2xl font-bold">Follow me!</h2>
       </div>
