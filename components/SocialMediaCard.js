@@ -8,14 +8,14 @@ export default function SocialMediaCard() {
         <h2 className="text-center text-2xl font-bold">Follow me!</h2>
       </div>
       <div className="flex h-full items-center pr-6">
-        <div className="m-6 mr-0 pr-0">
+        <div className="m-6 mr-0">
           <img
             src="/pixel-brush/assets/kevin-portait.webp"
             alt="Linguine Logo"
             className="m-0 w-4/5 w-auto rounded-full"
           />
         </div>
-        <ul className="m4-8 mr-4">
+        <ul className="m-4 mr-2">
           <li className="pb-4 pt-4">
             <button
               className="flex items-center space-x-2 rounded-md border border-gray-300 px-4 py-2 transition-colors hover:bg-blue-50"
