@@ -189,7 +189,7 @@ export default function CharacterGuessingGame({ characters, totalCharacters, gam
 
       return () => clearInterval(interval); // Clean up interval on component unmount
     }
-  }, [gameStarted, betweenRounds]);
+  }, [gameStarted]); // add betweenRounds to make clock stop when between rounds
 
   const formatTime = (time) => {
     const minutes = Math.floor(time / 60);
