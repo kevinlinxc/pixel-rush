@@ -126,7 +126,7 @@ const ResolutionCarousel = ({ currentResolution }) => {
   );
 };
 
-export default function CharacterGuessingGame({ characters, totalCharacters, gameStarted}) {
+export default function CharacterGuessingGame({ characters, totalCharacters, gameStarted }) {
   const [remainingCharacters, setRemainingCharacters] = useState([]);
   const [currentCharacter, setCurrentCharacter] = useState(null);
   const [currentResolution, setCurrentResolution] = useState(0);
@@ -170,25 +170,25 @@ export default function CharacterGuessingGame({ characters, totalCharacters, gam
 
   useEffect(() => {
     if (gameStarted) {
-    const interval = setInterval(() => {
-      setTimeLeft((prevTimeLeft) => {
-        if (prevTimeLeft > 0) {
-          if (betweenRounds) {
-            return prevTimeLeft;
+      const interval = setInterval(() => {
+        setTimeLeft((prevTimeLeft) => {
+          if (prevTimeLeft > 0) {
+            if (betweenRounds) {
+              return prevTimeLeft;
+            } else {
+              return prevTimeLeft - 1;
+            }
           } else {
-            return prevTimeLeft - 1;
+            setFinalTimeTaken(totalTime);
+            setGameOver(true);
+            clearInterval(interval);
+            return 0;
           }
-        } else {
-          setFinalTimeTaken(totalTime);
-          setGameOver(true);
-          clearInterval(interval);
-          return 0;
-        }
-      });
-    }, 1000);
+        });
+      }, 1000);
 
-    return () => clearInterval(interval); // Clean up interval on component unmount
-}
+      return () => clearInterval(interval); // Clean up interval on component unmount
+    }
   }, [gameStarted, betweenRounds]);
 
   const formatTime = (time) => {
@@ -207,6 +207,9 @@ export default function CharacterGuessingGame({ characters, totalCharacters, gam
 
   const handleGuess = (e) => {
     e.preventDefault();
+    if (betweenRounds) {
+      return;
+    }
 
     if (
       normalizeString(guess) === normalizeString(currentCharacter.name) ||
@@ -460,7 +463,7 @@ export default function CharacterGuessingGame({ characters, totalCharacters, gam
             }}
           >
             <div
-              className="w-4/12 rounded-lg p-4 shadow-[1px_10px_15px_5px_rgba(0,0,0,0.1)] invisible md:visible"
+              className="invisible w-4/12 rounded-lg p-4 shadow-[1px_10px_15px_5px_rgba(0,0,0,0.1)] md:visible"
               style={{ margin: '0 auto' }}
             >
               <ResolutionChart correctGuessData={correctGuessData} orientation="horizontal" />
@@ -492,7 +495,7 @@ export default function CharacterGuessingGame({ characters, totalCharacters, gam
                         objectFit: 'cover', // ensure the image fits within the set size without distortion
                       }}
                     />
-                    <p>{guess.character.name.replaceAll("_", "")}</p>
+                    <p>{guess.character.name.replaceAll('_', '')}</p>
                   </li>
                 ))}
               </ul>
@@ -518,7 +521,7 @@ export default function CharacterGuessingGame({ characters, totalCharacters, gam
               Submit score
             </button>
             <button
-              onClick={() => (window.location.reload())}
+              onClick={() => window.location.reload()}
               className="w-1/2 rounded-lg bg-blue-500 text-white"
               style={{
                 padding: '0.5rem',
